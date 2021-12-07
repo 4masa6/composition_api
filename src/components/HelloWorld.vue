@@ -1,7 +1,11 @@
 <template>
   <div class="alert alert-primary">
     <h1>{{ title }}</h1>
-    <p>{{ data.msg }} ({{ data.count }})</p>
+    <p class="h5">{{ data.msg }}</p>
+    <div>
+      <input type="number" v-model="data.num" min="0" class="form-control">
+    </div>
+    <button class="btn btn-primary m-3" v-on:click="action">Click</button>
   </div>
 </template>
 
@@ -13,16 +17,19 @@ export default {
     title: String,
   },
   setup(props) {
-    const data = reactive({ // reactiveで作成できるのはオブジェクトのみ。数字や真偽値のようなものは使えない。
-      // ｢基本型の値をリアクティブにしたいならref｣｢オブジェクトをリアクティブにするならreactive｣
+    const data = reactive({
       msg: 'This is ref-value!',
-      count: 0
+      num: 0
     })
-    setInterval(() => {
-      data.count++ // reactiveはrefと違って値をコピーして返すが、リアクティブになっている。valueを省略できる。
-    }, 1000)
+    const action = () => { // 関数は、アロー関数を定数に代入する形で用意する
+      let total = 0
+      for (let i = 1; i <= data.num; i++) {
+        total += i
+      }
+      data.msg = "Total: " + total
+    }
     return {
-      data
+      data, action // 関数もreturnに含める
     }
   }
 }
