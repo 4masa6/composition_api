@@ -6,19 +6,20 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 
 export default {
   props: {
     title: String,
   },
   setup(props) {
-    const data = ref({
+    const data = reactive({ // reactiveで作成できるのはオブジェクトのみ。数字や真偽値のようなものは使えない。
+      // ｢基本型の値をリアクティブにしたいならref｣｢オブジェクトをリアクティブにするならreactive｣
       msg: 'This is ref-value!',
       count: 0
     })
     setInterval(() => {
-      data.value.count++ // dataは値そのものではなく、参照。ref.valueでdataが参照しているオブジェクトにアクセスできる
+      data.count++ // reactiveはrefと違って値をコピーして返すが、リアクティブになっている。valueを省略できる。
     }, 1000)
     return {
       data
